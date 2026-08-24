@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>APEX Global Bank - Core Banking & Digital Ledger</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <!-- Background Glow Orbs -->
+    <div class="glow-orb orb-emerald"></div>
+    <div class="glow-orb orb-cyan"></div>
+    <div class="glow-orb orb-purple"></div>
+    <div class="glow-orb orb-amber"></div>
+
+    <div class="app-container">
+        <!-- Top Navigation Bar -->
+        <header class="top-nav">
+            <div class="brand-section">
+                <div class="logo-icon">
+                    <span>⚡</span>
+                </div>
+                <div class="brand-text">
+                    <h1> APEX GLOBAL BANK</h1>
+                    <p class="subtitle">Next-Gen Core Banking & Digital Audit Ledger</p>
+                </div>
+            </div>
+
+            <div class="top-stats-bar">
+                <div class="stat-chip chip-emerald">
+                    <span class="chip-label">VAULT HOLDINGS</span>
+                    <span class="chip-val" id="stat-total-vault">$0.00</span>
+                </div>
+                <div class="stat-chip chip-cyan">
+                    <span class="chip-label">TOTAL ACCOUNTS</span>
+                    <span class="chip-val" id="stat-total-accounts">0</span>
+                </div>
+                <div class="stat-chip chip-purple">
+                    <span class="chip-label">TRANSACTIONS LOGGED</span>
+                    <span class="chip-val" id="stat-total-txns">0</span>
+                </div>
+            </div>
+
+            <div class="header-actions">
+                <button class="btn btn-outline-cyan" id="btn-seed-data">
+                    <span>⚡ Demo Data</span>
+                </button>
+                <button class="btn btn-primary-gradient" id="btn-open-new-customer">
+                    <span>+ New Customer</span>
+                </button>
+            </div>
+        </header>
+
+        <!-- Main Dashboard Layout -->
+        <main class="dashboard-grid">
+            <!-- Left Column: Customer & Accounts Navigation -->
+            <aside class="sidebar-panel">
+                <div class="panel-header">
+                    <h3>Customer Portfolio</h3>
+                    <button class="btn-icon" id="btn-add-customer-quick" title="Add Customer">+</button>
+                </div>
+
+                <!-- Customer Selector Dropdown -->
+                <div class="form-group select-customer-group">
+                    <label for="customer-select">Active Customer</label>
+                    <select id="customer-select" class="custom-select">
+                        <option value="">Select Customer...</option>
+                    </select>
+                </div>
+
+                <!-- Customer Profile Card -->
+                <div class="customer-profile-card" id="customer-profile-card">
+                    <div class="avatar-header">
+                        <div class="avatar" id="cust-avatar">AJ</div>
+                        <div class="profile-meta">
+                            <h4 id="cust-name">Alice Johnson</h4>
+                            <span class="badge badge-purple" id="cust-id-badge">CUST-1001</span>
+                        </div>
+                    </div>
+                    <div class="profile-details-list">
+                        <div class="detail-row">
+                            <span class="lbl">Email:</span>
+                            <span class="val" id="cust-email">alice@example.com</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="lbl">Phone:</span>
+                            <span class="val" id="cust-phone">+1-555-0101</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="lbl">Address:</span>
+                            <span class="val" id="cust-address">124 Market St</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Accounts Header -->
+                <div class="accounts-header-row">
+                    <h4>Bank Accounts (<span id="cust-account-count">0</span>)</h4>
+                    <button class="btn btn-sm btn-outline-emerald" id="btn-open-account-modal">+ Open Account</button>
+                </div>
+
+                <!-- Accounts Cards List -->
+                <div class="account-cards-list" id="account-cards-list">
+                    <!-- Dynamic Account Cards Injected Here -->
+                </div>
+            </aside>
+
+            <!-- Center & Right Area: Active Account Hub & Transactions -->
+            <section class="main-content">
+                <!-- Quick Operations Bar -->
+                <div class="action-dock-card">
+                    <div class="dock-title">Quick Financial Operations</div>
+                    <div class="dock-buttons">
+                        <button class="action-btn btn-deposit" id="btn-action-deposit">
+                            <div class="action-icon">↓</div>
+                            <div class="action-meta">
+                                <span class="action-name">Deposit Funds</span>
+                                <span class="action-sub">Instant cash credit</span>
+                            </div>
+                        </button>
+
+                        <button class="action-btn btn-withdraw" id="btn-action-withdraw">
+                            <div class="action-icon">↑</div>
+                            <div class="action-meta">
+                                <span class="action-name">Withdraw Funds</span>
+                                <span class="action-sub">PIN Protected</span>
+                            </div>
+                        </button>
+
+                        <button class="action-btn btn-transfer" id="btn-action-transfer">
+                            <div class="action-icon">⇄</div>
+                            <div class="action-meta">
+                                <span class="action-name">Transfer Funds</span>
+                                <span class="action-sub">Atomic A-to-B</span>
+                            </div>
+                        </button>
+
+                        <button class="action-btn btn-pin" id="btn-action-pin">
+                            <div class="action-icon">🔒</div>
+                            <div class="action-meta">
+                                <span class="action-name">Change PIN</span>
+                                <span class="action-sub">4-Digit Security</span>
+                            </div>
+                        </button>
+
+                        <button class="action-btn btn-receipt" id="btn-action-receipt">
+                            <div class="action-icon">🧾</div>
+                            <div class="action-meta">
+                                <span class="action-name">Lookup Receipt</span>
+                                <span class="action-sub">Reprint & Export</span>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Active Account Summary Banner -->
+                <div class="active-account-banner" id="active-account-banner">
+                    <div class="banner-left">
+                        <div class="banner-account-type" id="active-acc-type-badge">SAVINGS ACCOUNT</div>
+                        <div class="banner-acc-num" id="active-acc-num-display">ACC-1001</div>
+                        <div class="banner-sec-badge">🔒 PIN Security Active</div>
+                    </div>
+                    <div class="banner-right">
+                        <span class="balance-label">Available Balance</span>
+                        <h2 class="balance-amount" id="active-acc-balance">$0.00</h2>
+                        <span class="total-txns-chip" id="active-acc-txn-count">0 Transactions Recorded</span>
+                    </div>
+                </div>
+
+                <!-- Transaction Statement / Ledger Card -->
+                <div class="ledger-card">
+                    <div class="ledger-header">
+                        <div class="ledger-title-group">
+                            <h3>Transaction Audit Ledger</h3>
+                            <p>Real-time running balances & double-entry transfers</p>
+                        </div>
+
+                        <div class="ledger-filters">
+                            <div class="filter-pills">
+                                <button class="pill active" data-filter="ALL">All Txns</button>
+                                <button class="pill" data-filter="DEPOSIT">Deposits</button>
+                                <button class="pill" data-filter="WITHDRAWAL">Withdrawals</button>
+                                <button class="pill" data-filter="TRANSFER">Transfers</button>
+                            </div>
+                            <input type="text" id="tx-search-input" class="search-input" placeholder="Search TXN ID / Note...">
+                        </div>
+                    </div>
+
+                    <!-- Ledger Table -->
+                    <div class="table-responsive">
+                        <table class="transaction-table">
+                            <thead>
+                                <tr>
+                                    <th>TXN ID</th>
+                                    <th>Date & Time</th>
+                                    <th>Type</th>
+                                    <th>Amount</th>
+                                    <th>Balance After</th>
+                                    <th>Counterparty</th>
+                                    <th>Remarks</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="transaction-table-body">
+                                <tr>
+                                    <td colspan="8" class="empty-state">No transactions recorded for this account.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- MODAL: Create Customer -->
+    <div class="modal-backdrop" id="modal-customer">
+        <div class="modal-window glass-panel">
+            <div class="modal-header">
+                <h3>Register New Customer</h3>
+                <button class="modal-close" data-close="modal-customer">&times;</button>
+            </div>
+            <form id="form-create-customer">
+                <div class="form-group">
+                    <label>Full Legal Name *</label>
+                    <input type="text" id="cust-input-name" required placeholder="e.g. John Doe">
+                </div>
+                <div class="form-group">
+                    <label>Email Address *</label>
+                    <input type="email" id="cust-input-email" required placeholder="john@example.com">
+                </div>
+                <div class="form-group">
+                    <label>Phone Number *</label>
+                    <input type="tel" id="cust-input-phone" required placeholder="+1-555-0199">
+                </div>
+                <div class="form-group">
+                    <label>Residential Address *</label>
+                    <input type="text" id="cust-input-address" required placeholder="123 Financial Way, Suite 100">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-ghost" data-close="modal-customer">Cancel</button>
+                    <button type="submit" class="btn btn-primary-gradient">Create Customer</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL: Open Account -->
+    <div class="modal-backdrop" id="modal-account">
+        <div class="modal-window glass-panel">
+            <div class="modal-header">
+                <h3>Open Bank Account</h3>
+                <button class="modal-close" data-close="modal-account">&times;</button>
+            </div>
+            <form id="form-create-account">
+                <div class="form-group">
+                    <label>Account Owner</label>
+                    <select id="acc-input-customer" class="custom-select" required></select>
+                </div>
+                <div class="form-group">
+                    <label>Account Type</label>
+                    <div class="radio-card-grid">
+                        <label class="radio-card">
+                            <input type="radio" name="account-type-choice" value="SAVINGS" checked>
+                            <span class="card-box">
+                                <strong>Savings Account</strong>
+                                <small>Ideal for wealth growth</small>
+                            </span>
+                        </label>
+                        <label class="radio-card">
+                            <input type="radio" name="account-type-choice" value="CHECKING">
+                            <span class="card-box">
+                                <strong>Checking Account</strong>
+                                <small>Ideal for daily payments</small>
+                            </span>
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Initial Opening Deposit ($)</label>
+                    <input type="number" id="acc-input-deposit" min="0" step="0.01" value="500.00" required>
+                </div>
+                <div class="form-group">
+                    <label>Set 4-Digit Security PIN *</label>
+                    <input type="password" id="acc-input-pin" maxlength="4" pattern="[0-9]{4}" placeholder="4 digits (e.g. 1234)" required>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-ghost" data-close="modal-account">Cancel</button>
+                    <button type="submit" class="btn btn-primary-emerald">Open Account</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL: Deposit Funds -->
+    <div class="modal-backdrop" id="modal-deposit">
+        <div class="modal-window glass-panel">
+            <div class="modal-header">
+                <h3>Deposit Funds</h3>
+                <button class="modal-close" data-close="modal-deposit">&times;</button>
+            </div>
+            <form id="form-deposit">
+                <div class="form-group">
+                    <label>Target Account</label>
+                    <select id="deposit-account-select" class="custom-select" required></select>
+                </div>
+                <div class="form-group">
+                    <label>Deposit Amount ($) *</label>
+                    <input type="number" id="deposit-amount" min="0.01" step="0.01" placeholder="0.00" required>
+                </div>
+                <div class="form-group">
+                    <label>Remarks / Description</label>
+                    <input type="text" id="deposit-remarks" placeholder="e.g. Cash Deposit, Bonus, Salary">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-ghost" data-close="modal-deposit">Cancel</button>
+                    <button type="submit" class="btn btn-primary-emerald">Confirm Deposit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL: Withdraw Funds (PIN Protected) -->
+    <div class="modal-backdrop" id="modal-withdraw">
+        <div class="modal-window glass-panel">
+            <div class="modal-header">
+                <h3>Withdraw Funds (PIN Required)</h3>
+                <button class="modal-close" data-close="modal-withdraw">&times;</button>
+            </div>
+            <form id="form-withdraw">
+                <div class="form-group">
+                    <label>Source Account</label>
+                    <select id="withdraw-account-select" class="custom-select" required></select>
+                </div>
+                <div class="form-group">
+                    <label>Withdrawal Amount ($) *</label>
+                    <input type="number" id="withdraw-amount" min="0.01" step="0.01" placeholder="0.00" required>
+                </div>
+                <div class="form-group">
+                    <label>Security 4-Digit PIN *</label>
+                    <input type="password" id="withdraw-pin" maxlength="4" pattern="[0-9]{4}" placeholder="****" required>
+                </div>
+                <div class="form-group">
+                    <label>Remarks / Note</label>
+                    <input type="text" id="withdraw-remarks" placeholder="ATM Cash Withdrawal">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-ghost" data-close="modal-withdraw">Cancel</button>
+                    <button type="submit" class="btn btn-primary-coral">Authorize & Withdraw</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL: Transfer Funds (PIN Protected) -->
+    <div class="modal-backdrop" id="modal-transfer">
+        <div class="modal-window glass-panel">
+            <div class="modal-header">
+                <h3>Transfer Funds (PIN Required)</h3>
+                <button class="modal-close" data-close="modal-transfer">&times;</button>
+            </div>
+            <form id="form-transfer">
+                <div class="form-row-2">
+                    <div class="form-group">
+                        <label>From Account (Sender) *</label>
+                        <select id="transfer-from-select" class="custom-select" required></select>
+                    </div>
+                    <div class="form-group">
+                        <label>To Account (Recipient) *</label>
+                        <select id="transfer-to-select" class="custom-select" required></select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Transfer Amount ($) *</label>
+                    <input type="number" id="transfer-amount" min="0.01" step="0.01" placeholder="0.00" required>
+                </div>
+                <div class="form-group">
+                    <label>Sender 4-Digit Security PIN *</label>
+                    <input type="password" id="transfer-pin" maxlength="4" pattern="[0-9]{4}" placeholder="****" required>
+                </div>
+                <div class="form-group">
+                    <label>Transfer Description</label>
+                    <input type="text" id="transfer-remarks" placeholder="e.g. Rent, Split Dinner, Invoice">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-ghost" data-close="modal-transfer">Cancel</button>
+                    <button type="submit" class="btn btn-primary-amber">Authorize Transfer</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL: Change PIN -->
+    <div class="modal-backdrop" id="modal-change-pin">
+        <div class="modal-window glass-panel">
+            <div class="modal-header">
+                <h3>Update Security PIN</h3>
+                <button class="modal-close" data-close="modal-change-pin">&times;</button>
+            </div>
+            <form id="form-change-pin">
+                <div class="form-group">
+                    <label>Account</label>
+                    <select id="pin-account-select" class="custom-select" required></select>
+                </div>
+                <div class="form-group">
+                    <label>Current PIN *</label>
+                    <input type="password" id="pin-old" maxlength="4" pattern="[0-9]{4}" placeholder="Current 4 digits" required>
+                </div>
+                <div class="form-group">
+                    <label>New PIN *</label>
+                    <input type="password" id="pin-new" maxlength="4" pattern="[0-9]{4}" placeholder="New 4 digits" required>
+                </div>
+                <div class="form-group">
+                    <label>Confirm New PIN *</label>
+                    <input type="password" id="pin-confirm" maxlength="4" pattern="[0-9]{4}" placeholder="Re-type new 4 digits" required>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-ghost" data-close="modal-change-pin">Cancel</button>
+                    <button type="submit" class="btn btn-primary-gradient">Update PIN</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL: Official Receipt Viewer -->
+    <div class="modal-backdrop" id="modal-receipt">
+        <div class="modal-window modal-receipt-window">
+            <div class="modal-header no-border">
+                <span class="badge badge-emerald">Verified Transaction</span>
+                <button class="modal-close" data-close="modal-receipt">&times;</button>
+            </div>
+
+            <!-- Thermal Styled Paper Receipt -->
+            <div class="receipt-paper" id="receipt-paper-content">
+                <div class="receipt-cut-top"></div>
+                <div class="receipt-header-text">
+                    <h2>RAY BANK</h2>
+                    <p>CORE TRANSACTION RECEIPT</p>
+                    <div class="receipt-stars">★ ★ ★ ★ ★</div>
+                </div>
+
+                <div class="receipt-meta-grid">
+                    <div><span>TIMESTAMP:</span> <strong id="rcpt-timestamp">--</strong></div>
+                    <div><span>TXN ID:</span> <strong id="rcpt-txnid">--</strong></div>
+                    <div><span>STATUS:</span> <strong class="text-emerald">COMPLETED</strong></div>
+                </div>
+
+                <div class="receipt-divider-dashed"></div>
+
+                <div class="receipt-body-rows">
+                    <div class="rcpt-row">
+                        <span>Customer Name:</span>
+                        <strong id="rcpt-custname">--</strong>
+                    </div>
+                    <div class="rcpt-row">
+                        <span>Account Number:</span>
+                        <strong id="rcpt-accnum">--</strong>
+                    </div>
+                    <div class="rcpt-row">
+                        <span>Transaction Type:</span>
+                        <strong id="rcpt-type">--</strong>
+                    </div>
+                    <div class="rcpt-row" id="rcpt-counterparty-row">
+                        <span>Counterparty Acc:</span>
+                        <strong id="rcpt-counterparty">--</strong>
+                    </div>
+                    <div class="rcpt-row">
+                        <span>Remarks:</span>
+                        <strong id="rcpt-remarks">--</strong>
+                    </div>
+                </div>
+
+                <div class="receipt-divider-dashed"></div>
+
+                <div class="receipt-amount-box">
+                    <div class="amount-line">
+                        <span>TRANSACTION AMOUNT:</span>
+                        <strong class="highlight-amt" id="rcpt-amount">$0.00</strong>
+                    </div>
+                    <div class="amount-line">
+                        <span>CLOSING BALANCE:</span>
+                        <strong id="rcpt-balance">$0.00</strong>
+                    </div>
+                </div>
+
+                <div class="receipt-divider-dashed"></div>
+
+                <div class="receipt-barcode-box">
+                    <div class="fake-barcode"></div>
+                    <p class="auth-seal">AUTH-SEAL: SEC-VAL-OK-9921</p>
+                    <p class="receipt-footer-msg">Thank you for banking with RAY Bank!<br>Customer Support: 1-800-RAY-BANK</p>
+                </div>
+                <div class="receipt-cut-bottom"></div>
+            </div>
+
+            <div class="receipt-modal-actions">
+                <button class="btn btn-outline-cyan" id="btn-print-receipt">🖨️ Print Receipt</button>
+                <button class="btn btn-primary-gradient" id="btn-download-receipt">📥 Download Text Receipt</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification Container -->
+    <div class="toast-container" id="toast-container"></div>
+
+    <script src="app.js"></script>
+</body>
+
+</html>
